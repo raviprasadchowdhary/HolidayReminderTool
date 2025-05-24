@@ -1,4 +1,4 @@
-# Holiday Reminder Tool
+# Holiday Reminder Tool 
 
 This tool automatically sends holiday reminders to employees via email. It reads holiday information from a CSV file, generates a nicely formatted HTML email with calendars for the current and next month, and sends it to a list of employees.
 
