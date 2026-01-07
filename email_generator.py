@@ -107,48 +107,57 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
             ]) if not filtered.empty else '<li style="font-size: 14px; color: #777777;">No Offshore Holidays</li>'
 
     table_html = f"""
-    <p style="font-size: 16px; color: #333333; margin-bottom: 20px;">Hi Team,</p>
-    <p style="font-size: 16px; color: #333333; margin-bottom: 30px;">Here are the upcoming holidays for <strong style="color: #007bff;">{current_month_name}</strong> and <strong style="color: #007bff;">{next_month_name}</strong>:</p>
+    <p style="font-size: 16px; color: #333333; margin-bottom: 20px; text-align: left;">Hi Team,</p>
+    <p style="font-size: 16px; color: #333333; margin-bottom: 30px; text-align: left;">Here are the upcoming holidays for <strong style="color: #007bff;">{current_month_name}</strong> and <strong style="color: #007bff;">{next_month_name}</strong>:</p>
 
-    <table border="0" cellpadding="0" cellspacing="0" style="width:100%; max-width: 600px; margin: 0 auto 30px auto; border-radius: 8px; overflow: hidden; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+    <div style="width: 100%; text-align: center;">
+    <table border="0" cellpadding="0" cellspacing="0" style="display: inline-block; width: auto; min-width: 600px; max-width: 90%; margin: 0 auto 30px auto; border-radius: 8px; overflow: hidden; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
         <tr>
             <th colspan="2" style="background-color:#e9ecef; padding: 15px; font-size: 18px; color: #333333; text-align: center; border-bottom: 1px solid #dee2e6;">{current_month_name} Holidays</th>
             <th colspan="2" style="background-color:#e9ecef; padding: 15px; font-size: 18px; color: #333333; text-align: center; border-bottom: 1px solid #dee2e6;">{next_month_name} Holidays</th>
         </tr>
         <tr>
-            <td style="vertical-align: top; padding: 20px; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;">
-                <h4 style="margin-top:0; color: #007bff; font-size: 16px;">Onshore</h4>
+            <td style="vertical-align: top; padding: 20px; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; width: 25%;">
+                <h4 style="margin-top:0; color: #007bff; font-size: 16px; text-align: center;">Onshore</h4>
                 <ul style="list-style-type:none; padding:0; margin:0;">
                     {get_filtered_holidays_for_table(current_month_holidays_all, 'Onshore')}
                 </ul>
             </td>
-            <td style="vertical-align: top; padding: 20px; border-bottom: 1px solid #dee2e6;">
-                <h4 style="margin-top:0; color: #28a745; font-size: 16px;">Offshore</h4>
+            <td style="vertical-align: top; padding: 20px; border-bottom: 1px solid #dee2e6; width: 25%;">
+                <h4 style="margin-top:0; color: #28a745; font-size: 16px; text-align: center;">Offshore</h4>
                 <ul style="list-style-type:none; padding:0; margin:0;">
                     {get_filtered_holidays_for_table(current_month_holidays_all, 'Offshore')}
                 </ul>
             </td>
-            <td style="vertical-align: top; padding: 20px; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6;">
-                <h4 style="margin-top:0; color: #007bff; font-size: 16px;">Onshore</h4>
+            <td style="vertical-align: top; padding: 20px; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; width: 25%;">
+                <h4 style="margin-top:0; color: #007bff; font-size: 16px; text-align: center;">Onshore</h4>
                 <ul style="list-style-type:none; padding:0; margin:0;">
                     {get_filtered_holidays_for_table(next_month_holidays_all, 'Onshore')}
                 </ul>
             </td>
-            <td style="vertical-align: top; padding: 20px; border-bottom: 1px solid #dee2e6;">
-                <h4 style="margin-top:0; color: #28a745; font-size: 16px;">Offshore</h4>
+            <td style="vertical-align: top; padding: 20px; border-bottom: 1px solid #dee2e6; width: 25%;">
+                <h4 style="margin-top:0; color: #28a745; font-size: 16px; text-align: center;">Offshore</h4>
                 <ul style="list-style-type:none; padding:0; margin:0;">
                     {get_filtered_holidays_for_table(next_month_holidays_all, 'Offshore')}
                 </ul>
             </td>
         </tr>
     </table>
+    </div>
     """
 
-    calendar_html = """
-    <p style="font-size: 16px; color: #333333; margin-top: 40px; text-align: center;">A quick look at your holiday calendars:</p>
-    <div style="display: flex; justify-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap; max-width: 800px; margin: 0 auto 30px auto;">
+    calendar_html = f"""
+    <p style="font-size: 16px; color: #333333; margin-top: 40px; text-align: left;">A quick look at your holiday calendars:</p>
+    <div style="width: 100%; text-align: center;">
+    <table border="0" cellpadding="0" cellspacing="0" style="display: inline-block; width: auto; min-width: 600px; max-width: 90%; margin: 0 auto 30px auto; border-radius: 8px; overflow: hidden; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+        <tr>
+            <th colspan="2" style="background-color:#e9ecef; padding: 15px; font-size: 18px; color: #333333; text-align: center; border-bottom: 1px solid #dee2e6;">{current_month_name}</th>
+            <th colspan="2" style="background-color:#e9ecef; padding: 15px; font-size: 18px; color: #333333; text-align: center; border-bottom: 1px solid #dee2e6;">{next_month_name}</th>
+        </tr>
+        <tr>
     """
-
+    
+    # Generate calendar content for both months
     for month_date, month_holidays_df in [(current_date, current_month_holidays_all), (next_month_date, next_month_holidays_all)]:
         year = month_date.year
         month = month_date.month
@@ -167,7 +176,7 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
         only_onshore = onshore_dates - both_dates
         only_offshore = offshore_dates - both_dates
 
-        cal = calendar.HTMLCalendar(calendar.SUNDAY) # Start week on Sunday
+        cal = calendar.HTMLCalendar(calendar.SUNDAY)
         month_cal_html = cal.formatmonth(year, month)
 
         month_cal_html = month_cal_html.replace('border="0"', '') \
@@ -175,9 +184,9 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
                                        .replace('cellspacing="0"', '') \
                                        .replace('class="month"', '')
 
-        for day in range(1, 32): # Iterate up to 31 to cover all possible days
+        for day in range(1, 32):
             day_str_exact = f'>{day}<'
-            day_str_with_attr = f'">{day}<' # To handle cases where calendar might add attributes to <td>
+            day_str_with_attr = f'">{day}<'
 
             if day in both_dates:
                 replace_with = f'><span style="background-color: #90EE90; color: #333; font-weight: bold; padding: 4px 6px; border-radius: 4px; display: inline-block;">{day}</span><'
@@ -192,38 +201,75 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
                 month_cal_html = month_cal_html.replace(day_str_exact, replace_with)
                 month_cal_html = month_cal_html.replace(day_str_with_attr, f'"{replace_with}')
         
-        month_cal_html = month_cal_html.replace( # Make month name larger and centered
+        month_cal_html = month_cal_html.replace(
             f'<th colspan="7" class="month">{month_date.strftime("%B %Y")}</th>',
-            f'<th colspan="7" style="text-align:center; font-size: 18px; padding:10px 0; background-color: #f0f0f0; color: #333;">{month_date.strftime("%B %Y")}</th>'
+            f'<th colspan="7" style="text-align:center; font-size: 16px; padding:10px 0; background-color: #f0f0f0; color: #333;">{month_date.strftime("%B %Y")}</th>'
         )
-
 
         month_cal_html = month_cal_html.replace(
             '<table',
-            '<table style="width:100%; border-collapse: collapse; font-size: 14px; text-align: center; border: 0;"'
+            '<table style="width:100%; border-collapse: collapse; font-size: 15px; text-align: center; border: 0;"'
         ).replace(
-            '<th>', # For day names (Mon, Tue, etc.)
-            '<th style="background-color: #f8f9fa; padding: 8px; color: #555555; text-align: center; border-bottom: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0;">'
+            '<th>',
+            '<th style="background-color: #f8f9fa; padding: 10px; color: #555555; text-align: center; border-bottom: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; font-size: 14px; font-weight: bold;"'
         ).replace(
             '<td>',
-            '<td style="padding: 8px; border: 1px solid #e0e0e0; text-align: center; vertical-align: middle; height: 35px;">' # Added height for consistency
+            '<td style="padding: 10px; border: 1px solid #e0e0e0; text-align: center; vertical-align: middle; height: 40px; font-size: 14px;"'
         )
 
-
+        # Determine background color based on month
+        bg_color = "#f8f9fa" if month_date == current_date else "#e9ecef"
+        
         calendar_html += f"""
-        <div style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); padding: 20px; flex: 1 1 calc(50% - 40px); min-width: 300px; box-sizing: border-box; margin:10px;">
-            {month_cal_html}
-        </div>
+            <td colspan="2" style="vertical-align: top; padding: 20px; border-bottom: 1px solid #dee2e6;">
+                <div style="background-color: {bg_color}; border-radius: 6px; padding: 20px;">
+                    {month_cal_html}
+                </div>
+            </td>
         """
-    calendar_html += "</div>"
+    
     calendar_html += """
-    <p style="margin-top: 30px; text-align: center; font-size: 14px; color: #555555;">
-        <span style="background-color: #ADD8E6; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-right: 5px; vertical-align: middle;">&nbsp;</span> <span style="vertical-align: middle;">Offshore</span>
-        &nbsp;&nbsp;
-        <span style="background-color: #FFD700; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-right: 5px; vertical-align: middle;">&nbsp;</span> <span style="vertical-align: middle;">Onshore</span>
-        &nbsp;&nbsp;
-        <span style="background-color: #90EE90; padding: 4px 10px; border-radius: 4px; display: inline-block; margin-right: 5px; vertical-align: middle;">&nbsp;</span> <span style="vertical-align: middle;">Both</span>
-    </p>
+        </tr>
+    </table>
+    </div>
+    """
+    calendar_html += """
+    <div style="margin-top: 30px; text-align: center;">
+        <table border="0" cellpadding="0" cellspacing="0" style="display: inline-block; margin: 0 auto;">
+            <tr>
+                <td style="padding: 8px 5px; text-align: center;">
+                    <table border="0" cellpadding="0" cellspacing="0" style="display: inline-block;">
+                        <tr>
+                            <td bgcolor="#ADD8E6" width="40" height="20" style="border: 1px solid #87CEEB; background-color: #ADD8E6;">&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="padding: 8px 10px 8px 5px; text-align: left;">
+                    <span style="font-size: 14px; color: #555555; font-weight: 500;">Offshore</span>
+                </td>
+                <td style="padding: 8px 5px; text-align: center;">
+                    <table border="0" cellpadding="0" cellspacing="0" style="display: inline-block;">
+                        <tr>
+                            <td bgcolor="#FFD700" width="40" height="20" style="border: 1px solid #DAA520; background-color: #FFD700;">&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="padding: 8px 10px 8px 5px; text-align: left;">
+                    <span style="font-size: 14px; color: #555555; font-weight: 500;">Onshore</span>
+                </td>
+                <td style="padding: 8px 5px; text-align: center;">
+                    <table border="0" cellpadding="0" cellspacing="0" style="display: inline-block;">
+                        <tr>
+                            <td bgcolor="#90EE90" width="40" height="20" style="border: 1px solid #7CCD7C; background-color: #90EE90;">&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="padding: 8px 10px 8px 5px; text-align: left;">
+                    <span style="font-size: 14px; color: #555555; font-weight: 500;">Both</span>
+                </td>
+            </tr>
+        </table>
+    </div>
     """
 
     full_html_content = f"""
@@ -232,7 +278,6 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Upcoming Holidays</title>
         <style>
             body {{
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -243,7 +288,7 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
                 padding: 0;
             }}
             .email-container {{
-                max-width: 700px; /* Increased width slightly for better calendar display */
+                max-width: 900px;
                 margin: 30px auto;
                 background-color: #ffffff;
                 padding: 30px;
@@ -262,6 +307,7 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
                 color: #007bff;
                 font-size: 28px;
                 margin: 0;
+                text-align: center;
             }}
             .header img {{ /* Basic style for a logo if you add one */
                 max-width: 150px; 
@@ -284,8 +330,8 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
     </head>
     <body>
         <div class="email-container">
-            <div class="header">
-                <h1>🎉 Holiday Reminder! 🎉</h1>
+            <div class="header" style="text-align: center;">
+                <h1 style="color: #007bff; font-size: 28px; margin: 0; text-align: center;">🎉 Holiday Reminder! 🎉</h1>
             </div>
 
             {table_html}
@@ -307,65 +353,124 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
 
 # --- Example Usage (for direct testing of this file) ---
 if __name__ == "__main__":
-    # Dummy holiday data for testing (ensure dates are MM/DD/YYYY for the parser)
-    dummy_holidays_data = {
-        'Date': [
-            '01/01/2025', '01/26/2025', '05/26/2025', '05/27/2025', # May for current_date test
-            '06/27/2025', '06/28/2025', '08/15/2025', '05/invalid_date/2025' # Test invalid date
-        ],
-        'HolidayName': [
-            'New Year', 'Republic Day', 'Memorial Day Test', 'TwentySeventh May Test',
-            'TwentySeventh June', 'TwentyEighth June', 'Independence Day', 'Bad Date Holiday'
-        ],
-        'Shore': [
-            'Both', 'Offshore', 'Onshore', 'Offshore',
-            'Offshore', 'Both', 'Offshore', 'Both'
-        ],
-        'Locations': [
-            'All Offshore & Onshore', 'Bangalore, Mumbai', 'All USA Locations', 'Bangalore, Pune',
-            'Bangalore, Pune, Mumbai', 'All Offshore & Onshore', 'Pune', 'All'
-        ]
-    }
-    dummy_holidays_df = pd.DataFrame(dummy_holidays_data)
-    # No need to convert 'Date' here, get_holiday_data will do it.
-
+    import configparser
+    import sys
+    
+    # Load configuration from config.ini (same as main_tool.py)
+    config = configparser.ConfigParser()
+    config_file_path = 'config.ini'
+    
     try:
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        dummy_csv_path = os.path.join(script_dir, 'dummy_holidays.csv')
-        dummy_holidays_df.to_csv(dummy_csv_path, index=False)
-        print(f"Temporary dummy_holidays.csv created at: {dummy_csv_path}")
-
-        # Test get_holiday_data
-        print("\n--- Testing get_holiday_data ---")
-        holidays_df_from_csv = get_holiday_data(dummy_csv_path)
-        print("Loaded holidays_df_from_csv head:")
-        print(holidays_df_from_csv.head())
-        print(f"Shape of loaded data: {holidays_df_from_csv.shape}")
-        print("--- End testing get_holiday_data ---\n")
-
-
-        if not holidays_df_from_csv.empty:
-            # If testing generate_modern_holiday_email_html, ensure current_date is set to May 2025
-            # by uncommenting `# current_date = datetime(2025, 5, 24)` inside the function
-            # or pass a specific date to it for testing if you modify the function signature.
-            print("Generating HTML with default company/signature names...")
-            email_html = generate_modern_holiday_email_html(
-                holidays_df_from_csv,
-                company_name_footer="Test Corp",
-                signature_name="Test HR"
-            )
-            output_html_file = "modern_holiday_reminder_enhanced.html"
-            with open(output_html_file, "w", encoding="utf-8") as f:
-                f.write(email_html)
-            print(f"Generated {output_html_file} using data from CSV. Open it in a browser to preview.")
+        if not os.path.exists(config_file_path):
+            print(f"Error: Configuration file '{config_file_path}' not found.")
+            print("Please create config.ini as described in the README.")
+            sys.exit(1)
+        
+        config.read(config_file_path)
+        
+        # Read file paths from config
+        HOLIDAYS_FILE = config.get('FILE_PATHS', 'HOLIDAYS_FILE')
+        EMPLOYEES_FILE = config.get('FILE_PATHS', 'EMPLOYEES_FILE')
+        
+        # Read email content settings from config
+        COMPANY_NAME_SUBJECT_SUFFIX = config.get('EMAIL_CONTENT', 'COMPANY_NAME_SUBJECT_SUFFIX', fallback="Upcoming Holiday Reminder!")
+        COMPANY_NAME_FOOTER = config.get('EMAIL_CONTENT', 'COMPANY_NAME_FOOTER', fallback="Your Company Name")
+        SIGNATURE_NAME = config.get('EMAIL_CONTENT', 'SIGNATURE_NAME', fallback="HR Department")
+        
+        print("--- Holiday Email Generator (Preview Mode) ---")
+        print(f"Loading holidays from: {HOLIDAYS_FILE}")
+        print(f"Employee list from: {EMPLOYEES_FILE}")
+        print(f"Company: {COMPANY_NAME_FOOTER}")
+        print(f"Signature: {SIGNATURE_NAME}\n")
+        
+        # Load actual holiday data
+        holidays_df = get_holiday_data(HOLIDAYS_FILE)
+        
+        if holidays_df.empty:
+            print("Error: No holiday data found or file is empty.")
+            sys.exit(1)
+        
+        print(f"Loaded {len(holidays_df)} holidays from {HOLIDAYS_FILE}")
+        print("\nHoliday Data Preview:")
+        print(holidays_df.to_string(index=False))
+        print()
+        
+        # Load employee data for preview
+        try:
+            employees_df = pd.read_csv(EMPLOYEES_FILE)
+            if 'Email' in employees_df.columns:
+                recipient_count = len(employees_df)
+                print(f"Found {recipient_count} recipient(s) in {EMPLOYEES_FILE}")
+                print("Recipients:", ', '.join(employees_df['Email'].astype(str).tolist()))
+                print()
+            else:
+                print(f"Warning: 'Email' column not found in {EMPLOYEES_FILE}")
+        except FileNotFoundError:
+            print(f"Warning: Employee file '{EMPLOYEES_FILE}' not found.")
+        except Exception as e:
+            print(f"Warning: Could not read employee file: {e}")
+        
+        # Generate HTML email
+        print("Generating HTML email preview...")
+        email_html = generate_modern_holiday_email_html(
+            holidays_df,
+            company_name_footer=COMPANY_NAME_FOOTER,
+            signature_name=SIGNATURE_NAME
+        )
+        
+        # Save full HTML to file for browser preview
+        output_html_file = "holiday_email_preview.html"
+        with open(output_html_file, "w", encoding="utf-8") as f:
+            f.write(email_html)
+        
+        # Extract just the body content
+        import re
+        body_match = re.search(r'<body>(.*?)</body>', email_html, re.DOTALL)
+        if body_match:
+            email_body_only = body_match.group(1).strip()
         else:
-            print("Could not load holiday data from dummy CSV for HTML generation test.")
-
+            email_body_only = email_html
+        
+        # Create .eml file that can be opened directly in email clients
+        from email.mime.multipart import MIMEMultipart
+        from email.mime.text import MIMEText
+        
+        eml_msg = MIMEMultipart('alternative')
+        eml_msg['Subject'] = f"Upcoming Holiday Reminder! - {COMPANY_NAME_SUBJECT_SUFFIX}"
+        eml_msg['From'] = 'holidays@company.com'  # Placeholder
+        eml_msg['To'] = 'recipients@company.com'  # Placeholder
+        
+        # Attach HTML content
+        html_part = MIMEText(email_body_only, 'html', 'utf-8')
+        eml_msg.attach(html_part)
+        
+        # Save as .eml file
+        output_eml_file = "holiday_reminder_draft.eml"
+        with open(output_eml_file, "w", encoding="utf-8") as f:
+            f.write(eml_msg.as_string())
+        
+        print(f"\n✓ Email preview generated successfully!")
+        print(f"\n📧 EASIEST METHOD - Open Draft Email:")
+        print(f"   1. Double-click: {output_eml_file}")
+        print(f"   2. This will open in your default email client (Outlook/Thunderbird)")
+        print(f"   3. Update the To/From addresses and send!")
+        print(f"   → All formatting, colors, and shadows will be preserved!")
+        print(f"\n📄 Files created:")
+        print(f"   - {output_eml_file} (Double-click to open as draft email)")
+        print(f"   - {output_html_file} (Browser preview)")
+        print(f"\nEmail Subject: Upcoming Holiday Reminder! - {COMPANY_NAME_SUBJECT_SUFFIX}")
+        print(f"\nNOTE: If .eml doesn't open, open {output_html_file} in browser,")
+        print(f"      then use browser File > Print > Save as PDF and attach to email,")
+        
+    except configparser.Error as e:
+        print(f"Error reading configuration file: {e}")
+        print("Please ensure config.ini is correctly formatted.")
+        sys.exit(1)
+    except FileNotFoundError as e:
+        print(f"File not found: {e}")
+        sys.exit(1)
     except Exception as e:
-        print(f"Error during dummy CSV creation/reading for test: {e}")
-    finally:
-        if 'dummy_csv_path' in locals() and os.path.exists(dummy_csv_path):
-            # os.remove(dummy_csv_path) # Comment out to inspect dummy_holidays.csv
-            # print("Cleaned up dummy_holidays.csv.")
-            print(f"Dummy file {dummy_csv_path} was NOT removed for inspection.")
-            pass
+        print(f"An unexpected error occurred: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
