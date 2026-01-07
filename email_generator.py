@@ -86,25 +86,29 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
     ].sort_values(by='Date')
 
     def get_filtered_holidays_for_table(month_df, shore_type):
-        locations_str = ""
+        """Optimized: Use itertuples() instead of iterrows() for better performance"""
         if shore_type == 'Onshore':
             filtered = month_df[
                 (month_df['Shore'] == 'Onshore') | (month_df['Shore'] == 'Both')
             ]
+            if filtered.empty:
+                return '<li style="font-size: 14px; color: #777777;">No Onshore Holidays</li>'
             return ''.join([
-                f'<li style="margin-bottom: 8px; font-size: 14px; color: #555555;"><strong>{h["Date"].strftime("%b %d")}</strong>: {h["HolidayName"]} '
-                f'<span style="color: #888888;">({h["Locations"]})</span></li>' # <--- ADDED Locations for Onshore
-                for idx, h in filtered.iterrows()
-            ]) if not filtered.empty else '<li style="font-size: 14px; color: #777777;">No Onshore Holidays</li>'
-        else: # Offshore
+                f'<li style="margin-bottom: 8px; font-size: 14px; color: #555555;"><strong>{row.Date.strftime("%b %d")}</strong>: {row.HolidayName} '
+                f'<span style="color: #888888;">({row.Locations})</span></li>'
+                for row in filtered.itertuples()
+            ])
+        else:  # Offshore
             filtered = month_df[
                 (month_df['Shore'] == 'Offshore') | (month_df['Shore'] == 'Both')
             ]
+            if filtered.empty:
+                return '<li style="font-size: 14px; color: #777777;">No Offshore Holidays</li>'
             return ''.join([
-                f'<li style="margin-bottom: 8px; font-size: 14px; color: #555555;"><strong>{h["Date"].strftime("%b %d")}</strong>: {h["HolidayName"]} '
-                f'<span style="color: #888888;">({h["Locations"]})</span></li>'
-                for idx, h in filtered.iterrows()
-            ]) if not filtered.empty else '<li style="font-size: 14px; color: #777777;">No Offshore Holidays</li>'
+                f'<li style="margin-bottom: 8px; font-size: 14px; color: #555555;"><strong>{row.Date.strftime("%b %d")}</strong>: {row.HolidayName} '
+                f'<span style="color: #888888;">({row.Locations})</span></li>'
+                for row in filtered.itertuples()
+            ])
 
     table_html = f"""
     <p style="font-size: 16px; color: #333333; margin-bottom: 20px; text-align: left;">Hi Team,</p>
@@ -179,27 +183,36 @@ def generate_modern_holiday_email_html(holidays_df, company_name_footer="Your Co
         cal = calendar.HTMLCalendar(calendar.SUNDAY)
         month_cal_html = cal.formatmonth(year, month)
 
-        month_cal_html = month_cal_html.replace('border="0"', '') \
-                                       .replace('cellpadding="0"', '') \
-                                       .replace('cellspacing="0"', '') \
-                                       .replace('class="month"', '')
+        # Optimize: Clean up calendar HTML in single pass
+        replacements = {
+            'border="0"': '',
+            'cellpadding="0"': '',
+            'cellspacing="0"': '',
+            'class="month"': ''
+        }
+        for old, new in replacements.items():
+            month_cal_html = month_cal_html.replace(old, new)
 
-        for day in range(1, 32):
+        # Optimize: Highlight holiday dates (only process days that exist in the month)
+        import calendar as cal_module
+        max_day = cal_module.monthrange(year, month)[1]
+        
+        for day in range(1, max_day + 1):
             day_str_exact = f'>{day}<'
             day_str_with_attr = f'">{day}<'
 
+            color = None
             if day in both_dates:
-                replace_with = f'><span style="background-color: #90EE90; color: #333; font-weight: bold; padding: 4px 6px; border-radius: 4px; display: inline-block;">{day}</span><'
-                month_cal_html = month_cal_html.replace(day_str_exact, replace_with)
-                month_cal_html = month_cal_html.replace(day_str_with_attr, f'"{replace_with}')
+                color = '#90EE90'
             elif day in only_onshore:
-                replace_with = f'><span style="background-color: #FFD700; color: #333; font-weight: bold; padding: 4px 6px; border-radius: 4px; display: inline-block;">{day}</span><'
-                month_cal_html = month_cal_html.replace(day_str_exact, replace_with)
-                month_cal_html = month_cal_html.replace(day_str_with_attr, f'"{replace_with}')
+                color = '#FFD700'
             elif day in only_offshore:
-                replace_with = f'><span style="background-color: #ADD8E6; color: #333; font-weight: bold; padding: 4px 6px; border-radius: 4px; display: inline-block;">{day}</span><'
-                month_cal_html = month_cal_html.replace(day_str_exact, replace_with)
-                month_cal_html = month_cal_html.replace(day_str_with_attr, f'"{replace_with}')
+                color = '#ADD8E6'
+            
+            if color:
+                replace_with = f'><span style="background-color: {color}; color: #333; font-weight: bold; padding: 4px 6px; border-radius: 4px; display: inline-block;">{day}</span><'
+                month_cal_html = month_cal_html.replace(day_str_exact, replace_with, 1)
+                month_cal_html = month_cal_html.replace(day_str_with_attr, f'"{replace_with}', 1)
         
         month_cal_html = month_cal_html.replace(
             f'<th colspan="7" class="month">{month_date.strftime("%B %Y")}</th>',

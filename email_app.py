@@ -4,17 +4,18 @@ import configparser
 import sys
 import os
 import webbrowser
-import urllib.parse
 import tempfile
-import subprocess
-import importlib
+import re
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # Import our existing email generator
 import email_generator
-# Reload to get latest changes
-importlib.reload(email_generator)
 
 class HolidayEmailApp:
+    # Compile regex pattern once at class level for better performance
+    _BODY_PATTERN = re.compile(r'<body>(.*?)</body>', re.DOTALL)
+    
     def __init__(self, root):
         self.root = root
         self.root.title("Holiday Reminder Email Generator")
@@ -27,6 +28,10 @@ class HolidayEmailApp:
         
         # Load configuration
         self.load_config()
+        
+        # Cache for generated email
+        self._cached_email_html = None
+        self._holidays_df = None
         
         # Create UI
         self.create_widgets()
@@ -155,23 +160,30 @@ class HolidayEmailApp:
                              bd=2)
         exit_btn.grid(row=2, column=0, columnspan=2, sticky='ew', pady=5, padx=5)
         
-    def generate_email_content(self):
-        """Generate the email HTML content"""
+    def generate_email_content(self, force_refresh=False):
+        """Generate the email HTML content with caching for better performance"""
         try:
-            # Load holiday data
-            holidays_df = email_generator.get_holiday_data(self.holidays_file)
+            # Return cached content if available and not forcing refresh
+            if self._cached_email_html and not force_refresh:
+                return self._cached_email_html
             
-            if holidays_df.empty:
-                messagebox.showerror("Error", "No holiday data found or file is empty.")
-                return None
+            # Load holiday data (cache it)
+            if self._holidays_df is None or force_refresh:
+                self._holidays_df = email_generator.get_holiday_data(self.holidays_file)
+                
+                if self._holidays_df.empty:
+                    messagebox.showerror("Error", "No holiday data found or file is empty.")
+                    return None
             
             # Generate email HTML
             email_html = email_generator.generate_modern_holiday_email_html(
-                holidays_df,
+                self._holidays_df,
                 company_name_footer=self.company_name_footer,
                 signature_name=self.signature_name
             )
             
+            # Cache the result
+            self._cached_email_html = email_html
             return email_html
             
         except Exception as e:
@@ -188,9 +200,8 @@ class HolidayEmailApp:
             self.status_label.config(text="Failed to generate email", foreground="red")
             return
         
-        # Extract body content
-        import re
-        body_match = re.search(r'<body>(.*?)</body>', email_html, re.DOTALL)
+        # Extract body content using compiled pattern
+        body_match = self._BODY_PATTERN.search(email_html)
         if body_match:
             email_body = body_match.group(1).strip()
         else:
@@ -314,9 +325,8 @@ class HolidayEmailApp:
             return
         
         try:
-            # Extract body content
-            import re
-            body_match = re.search(r'<body>(.*?)</body>', email_html, re.DOTALL)
+            # Extract body content using compiled pattern
+            body_match = self._BODY_PATTERN.search(email_html)
             if body_match:
                 email_body = body_match.group(1).strip()
             else:

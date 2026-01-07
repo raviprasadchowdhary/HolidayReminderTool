@@ -1,10 +1,10 @@
-Content-Type: multipart/alternative; boundary="===============2971526223227626081=="
+Content-Type: multipart/alternative; boundary="===============5038999241388492867=="
 MIME-Version: 1.0
 Subject: Upcoming Holiday Reminder! - Raviprasad Pvt Ltd
-From: 
-To: 
+From: holidays@company.com
+To: recipients@company.com
 
---===============2971526223227626081==
+--===============5038999241388492867==
 Content-Type: text/html; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -209,4 +209,4 @@ dCByZXBseSB0byB0aGlzIGVtYWlsLjwvcD4KICAgICAgICAgICAgICAgIDxwPiZjb3B5OyAyMDI2
 IFJhdmlwcmFzYWQgU29mdHdhcmUgU29sdXRpb25zIEluZGlhIFB2dCBMdGQ8L3A+CiAgICAgICAg
 ICAgIDwvZGl2PgogICAgICAgIDwvZGl2Pg==
 
---===============2971526223227626081==--
+--===============5038999241388492867==--
